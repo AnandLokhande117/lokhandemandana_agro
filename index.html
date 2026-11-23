@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#174b35"><title>लोखंडेमांडणा ॲग्रो | Fertilizer Manager</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{--green:#174b35;--green2:#246747;--lime:#d9efb1;--bg:#f4f7f2;--ink:#18251d;--muted:#6c7b70;--line:#e2e9e2;--white:#fff;--red:#b83232;--amber:#98620b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:linear-gradient(120deg,#123c2b,#26714a);color:#fff;padding:18px max(18px,calc((100vw - 1200px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:5}
+.brand{font-weight:800;font-size:18px}.sub{font-size:12px;opacity:.8}.headright{display:flex;gap:8px;align-items:center}
+select,button,input,textarea{font:inherit}button,select{cursor:pointer}.lang{background:#ffffff1c;color:white;border:1px solid #ffffff55;border-radius:10px;padding:8px}
+.layout{max-width:1200px;margin:22px auto;padding:0 16px;display:grid;grid-template-columns:220px 1fr;gap:18px}
+nav{background:white;border:1px solid var(--line);border-radius:16px;padding:10px;height:max-content;position:sticky;top:88px}
+nav button{width:100%;text-align:left;border:0;background:transparent;padding:12px;border-radius:10px;color:#405147;margin:2px 0}
+nav button.active,nav button:hover{background:#eaf3e9;color:var(--green);font-weight:700}
+main{min-width:0}.pagehead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 0 16px}.pagehead h1{font-size:23px;margin:0}.muted{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.card,.panel{background:white;border:1px solid var(--line);border-radius:15px;padding:16px}
+.metric{font-size:25px;font-weight:800;margin-top:5px}.metriclabel{font-size:12px;color:var(--muted)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:10px;background:var(--green);color:white;padding:10px 14px;font-weight:650}.btn.secondary{background:#eaf3e9;color:var(--green)}.btn.danger{background:#fff0f0;color:var(--red)}.btn.small{padding:7px 10px;font-size:13px}
+.panel{margin-bottom:14px}.panel h2{font-size:16px;margin:0 0 13px}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}label{font-size:12px;color:var(--muted);font-weight:650}
+input,select,textarea{width:100%;border:1px solid #d8e1d8;border-radius:9px;padding:10px;background:#fff;color:var(--ink);min-width:0}input:focus,select:focus,textarea:focus{outline:2px solid #b8d8bd;border-color:var(--green)}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:10px 9px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.04em;background:#f8faf7}td.num,th.num{text-align:right}.tablewrap{overflow:auto}
+.pill{display:inline-block;padding:4px 8px;border-radius:30px;font-size:11px;background:#edf4eb;color:var(--green)}.pill.warn{background:#fff4df;color:var(--amber)}.pill.bad{background:#fff0f0;color:var(--red)}
+.empty{padding:25px;text-align:center;color:var(--muted)}.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#17271d;color:white;padding:11px 16px;border-radius:12px;display:none;z-index:10}
+.modal{position:fixed;inset:0;background:#101b1699;display:none;align-items:center;justify-content:center;padding:14px;z-index:9}.modal.show{display:flex}.dialog{background:white;border-radius:17px;padding:18px;max-width:650px;width:100%;max-height:90vh;overflow:auto}.dialoghead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.dialoghead h2{margin:0;font-size:18px}
+.bill{max-width:760px;margin:auto;background:white;padding:24px;color:#111}.bill h2,.bill p{text-align:center;margin:3px}.bill table{margin-top:20px}.bill .totals{margin:18px 0 0 auto;width:280px}.bill .totals div{display:flex;justify-content:space-between;padding:4px}
+.bill-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:16px;padding:12px;background:#f3f7f2;border:1px solid var(--line);border-radius:12px}.bill-actions .btn{width:100%;min-height:44px;white-space:normal}@media(max-width:480px){.bill-actions{grid-template-columns:1fr}}
+@media(max-width:800px){.layout{grid-template-columns:1fr;margin:12px auto}nav{position:static;display:flex;overflow:auto;gap:4px;padding:7px}nav button{white-space:nowrap;width:auto;padding:9px 11px}.cards{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}header{padding:13px 15px}.brand{font-size:15px}}
+@media(max-width:480px){.cards{gap:8px}.card{padding:12px}.metric{font-size:21px}.formgrid{grid-template-columns:1fr}.pagehead h1{font-size:19px}.pagehead{align-items:flex-start;flex-direction:column}}
+@media print{header,nav,.pagehead,.noprint,.toast{display:none!important}body{background:white}.layout{display:block;margin:0;padding:0}.panel{border:0;padding:0}.bill{padding:0}.modal{position:static;background:white;display:block!important}.dialog{max-width:none;max-height:none;padding:0}.dialoghead{display:none}}
+</style></head>
+<body>
+<header><div><div class="brand">🌱 लोखंडेमांडणा ॲग्रो फार्मर प्रोड्युसर कंपनी</div><div class="sub" data-i="tagline">Fertilizer Stock • Purchase • Sales • Billing</div></div><div class="headright"><select class="lang" id="language"><option value="en">English</option><option value="mr">मराठी</option></select></div></header>
+<div class="layout"><nav id="nav">
+<button class="active" data-page="dashboard" data-i="dashboard">▦ Dashboard</button>
+<button data-page="products" data-i="products">▤ Products & Stock</button>
+<button data-page="purchase" data-i="purchase">＋ Purchase Entry</button>
+<button data-page="sales" data-i="sales">↗ Sales & Bill</button>
+<button data-page="customers" data-i="customers">♙ Customers</button>
+<button data-page="suppliers" data-i="suppliers">♧ Suppliers</button>
+<button data-page="reports" data-i="reports">▥ Reports</button>
+<button data-page="settings" data-i="settings">⚙ Data & Settings</button>
+</nav><main id="main"></main></div><div class="toast" id="toast"></div><div class="modal" id="modal"><div class="dialog"><div class="dialoghead"><h2 id="modalTitle"></h2><button class="btn secondary small" onclick="closeModal()">✕</button></div><div id="modalBody"></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" referrerpolicy="no-referrer"></script>
+<script>
+const COMPANY='लोखंडेमांडणा ॲग्रो फार्मर प्रोड्युसर कंपनी';
+const blank={products:[],purchases:[],sales:[],customers:[],suppliers:[],settings:{business:COMPANY,address:'',phone:'',gstin:'',invoicePrefix:'LM'},seq:1};
+let db=load(),page='dashboard',lang=localStorage.getItem('lm_lang')||'en';
+function load(){try{return {...blank,...JSON.parse(localStorage.getItem('lm_data')||'{}')}}catch(e){return structuredClone(blank)}}
+let supabaseClient=null, cloudUser=null, cloudReady=false, cloudBusy=false;
+function save(){
+  localStorage.setItem('lm_data',JSON.stringify(db));
+  if(supabaseClient && cloudUser) syncCloud();
+}
+async function syncCloud(){
+  if(!supabaseClient || !cloudUser || cloudBusy) return;
+  cloudBusy=true;
+  try{
+    const {error}=await supabaseClient.from('business_state').upsert(
+      {user_id:cloudUser.id, payload:db, updated_at:new Date().toISOString()},
+      {onConflict:'user_id'}
+    );
+    if(error) throw error;
+    cloudReady=true; const el=document.getElementById('cloudStatus'); if(el) el.textContent='☁ Cloud synced';
+  }catch(e){const el=document.getElementById('cloudStatus');if(el)el.textContent='Cloud sync error: '+e.message;}
+  finally{cloudBusy=false;}
+}
+function cloudConfig(){try{return JSON.parse(localStorage.getItem('lm_supabase')||'{}')}catch(e){return {}}}
+async function connectCloud(){
+  const url=document.getElementById('sbUrl')?.value.trim();
+  const key=document.getElementById('sbKey')?.value.trim();
+  if(!url || !key) return toast('Enter Supabase Project URL and anon/publishable key');
+  if(!window.supabase) return toast('Supabase client library could not load. Check internet.');
+  localStorage.setItem('lm_supabase',JSON.stringify({url,key}));
+  await bootCloud();
+}
+async function bootCloud(){
+  const cfg=cloudConfig();
+  if(!cfg.url || !cfg.key){render();return;}
+  try{
+    supabaseClient=window.supabase.createClient(cfg.url,cfg.key);
+    const {data,error}=await supabaseClient.auth.getSession(); if(error) throw error;
+    cloudUser=data.session?.user||null;
+    if(!cloudUser){showAuth();return;}
+    await loadCloudState(); render();
+    const status=document.getElementById('cloudStatus');if(status)status.textContent='☁ Connected: '+cloudUser.email;
+    supabaseClient.auth.onAuthStateChange(async (_event,session)=>{
+      cloudUser=session?.user||null;
+      if(cloudUser){await loadCloudState();render();}
+      else {cloudReady=false;showAuth();}
+    });
+  }catch(e){toast('Cloud connection failed: '+e.message);render();}
+}
+async function loadCloudState(){
+  const {data,error}=await supabaseClient.from('business_state').select('payload').eq('user_id',cloudUser.id).maybeSingle();
+  if(error) throw error;
+  if(data?.payload){db={...blank,...data.payload};localStorage.setItem('lm_data',JSON.stringify(db));}
+  else {await supabaseClient.from('business_state').insert({user_id:cloudUser.id,payload:db});}
+  cloudReady=true;
+}
+function showAuth(){
+  modal('Owner sign in',`<p class="muted">Sign in with the owner account to sync records across devices.</p>
+  <form onsubmit="authAction(event,'signin')"><div class="formgrid">${field('email','Owner email','','email',true)}${field('password','Password','','password',true)}</div><p class="actions"><button class="btn">Sign in</button><button type="button" class="btn secondary" onclick="authActionFromForm('signup')">Create owner account</button></p></form>
+  <p class="muted">Use the same account on the phone and computer. Keep the password private.</p>`);
+}
+async function authAction(e,action){e.preventDefault();const f=Object.fromEntries(new FormData(e.target));try{
+  const result=action==='signup'?await supabaseClient.auth.signUp({email:f.email,password:f.password}):await supabaseClient.auth.signInWithPassword({email:f.email,password:f.password});
+  if(result.error)throw result.error;
+  if(action==='signup'&&!result.data.session){toast('Check your email to confirm the owner account.');return;}
+  cloudUser=result.data.user;await loadCloudState();closeModal();render();toast('Cloud account connected');
+}catch(err){toast(err.message)}}
+async function authActionFromForm(action){const email=prompt('Owner email');const password=prompt('Create a strong password (at least 6 characters)');if(!email||!password)return;try{const {data,error}=await supabaseClient.auth.signUp({email,password});if(error)throw error;if(!data.session){toast('Check your email to confirm the owner account.');return;}cloudUser=data.user;await loadCloudState();closeModal();render();}catch(e){toast(e.message)}}
+async function signOutCloud(){if(supabaseClient)await supabaseClient.auth.signOut();cloudUser=null;cloudReady=false;showAuth();}
+
+const T={
+en:{tagline:'Fertilizer Stock • Purchase • Sales • Billing',dashboard:'Dashboard',products:'Products & Stock',purchase:'Purchase Entry',sales:'Sales & Bill',customers:'Customers',suppliers:'Suppliers',reports:'Reports',settings:'Data & Settings',stock:'Stock Items',stockValue:'Purchase Value',todaySales:"Today's Sales",low:'Low Stock',quick:'Quick actions',addPurchase:'Record Purchase',newSale:'Create Sale / Bill',recent:'Recent transactions',product:'Product',brand:'Brand / Company',batch:'Batch No.',unit:'Unit',qty:'Quantity',rate:'Rate (₹)',gst:'GST %',date:'Date',billNo:'Bill No.',supplier:'Supplier',customer:'Customer',mobile:'Mobile',payment:'Payment mode',notes:'Notes',save:'Save entry',cancel:'Cancel',name:'Name',address:'Address',gstin:'GSTIN',bags:'Bags',kg:'Kg',litre:'Litre',other:'Other',cash:'Cash',upi:'UPI',bank:'Bank',credit:'Credit',cheque:'Cheque',purchaseRegister:'Purchase register',salesRegister:'Sales register',available:'Available',purchased:'Purchased',sold:'Sold',amount:'Amount',actions:'Actions',addProduct:'Add product',search:'Search',noData:'No records yet',lowHint:'Items with stock at or below 5 units',invoice:'Invoice',gstBill:'GST invoice',nonGst:'Non-GST bill',print:'Print / Save PDF',smsBill:'SMS customer',sharePdf:'Share PDF',whatsapp:'WhatsApp customer',phoneRequired:'Enter a valid customer mobile number (10 digits or with country code).',pdfReady:'PDF downloaded. Attach it in your messaging app.',subtotal:'Subtotal',tax:'GST',total:'Grand total',paid:'Paid amount',due:'Balance due',customerList:'Customer list',supplierList:'Supplier list',export:'Export backup',import:'Import backup',reset:'Reset all data',backupHint:'Your records are saved in this browser on this device. Export backups regularly.',businessInfo:'Business details',businessName:'Business name',businessPhone:'Phone',businessAddress:'Address',businessGST:'Business GSTIN',reportsHint:'Summary calculated from saved purchase and sales entries.',purchaseTotal:'Total purchases',salesTotal:'Total sales',gross:'Sales less purchase cost (indicative)',all:'All',delete:'Delete',confirmDelete:'Delete this record?',stockError:'Not enough stock for this sale.',required:'Please fill the required fields.',productExists:'Product already exists. Use the existing product name.',addCustomer:'Add customer',addSupplier:'Add supplier',noGst:'GST not applicable',selectProduct:'Select product',unitPrice:'Unit price',type:'Bill type',supplierBill:'Supplier bill no.',customerGST:'Customer GSTIN',company:'Company / Brand',saveSettings:'Save settings',stockWarning:'Low stock',purchaseSuccess:'Purchase saved',saleSuccess:'Sale saved and stock updated',unitStock:'Stock',records:'Records',dateRange:'Date range',thisMonth:'This month',allTime:'All time',cashCredit:'Cash / UPI / Bank / Credit / Cheque',opening:'Opening stock',openingHint:'Set initial stock as an opening balance before first purchase.'},
+mr:{tagline:'खत साठा • खरेदी • विक्री • बिलिंग',dashboard:'डॅशबोर्ड',products:'उत्पादने व स्टॉक',purchase:'खरेदी नोंद',sales:'विक्री व बिल',customers:'ग्राहक',suppliers:'पुरवठादार',reports:'अहवाल',settings:'डेटा व सेटिंग्ज',stock:'स्टॉकमधील उत्पादने',stockValue:'खरेदी मूल्य',todaySales:'आजची विक्री',low:'कमी स्टॉक',quick:'जलद कृती',addPurchase:'खरेदी नोंदवा',newSale:'विक्री / बिल तयार करा',recent:'अलीकडील व्यवहार',product:'खताचे नाव',brand:'कंपनी / ब्रँड',batch:'बॅच क्रमांक',unit:'एकक',qty:'प्रमाण',rate:'दर (₹)',gst:'GST %',date:'दिनांक',billNo:'बिल क्रमांक',supplier:'पुरवठादार',customer:'ग्राहक',mobile:'मोबाईल',payment:'पेमेंट प्रकार',notes:'शेरा',save:'नोंद सेव्ह करा',cancel:'रद्द करा',name:'नाव',address:'पत्ता',gstin:'GSTIN',bags:'बॅग',kg:'किलो',litre:'लिटर',other:'इतर',cash:'रोख',upi:'UPI',bank:'बँक',credit:'उधारी',cheque:'चेक',purchaseRegister:'खरेदी रजिस्टर',salesRegister:'विक्री रजिस्टर',available:'शिल्लक',purchased:'एकूण खरेदी',sold:'एकूण विक्री',amount:'रक्कम',actions:'कृती',addProduct:'उत्पादन जोडा',search:'शोधा',noData:'अद्याप नोंदी नाहीत',lowHint:'५ किंवा त्यापेक्षा कमी स्टॉक असलेली उत्पादने',invoice:'बिल',gstBill:'GST बिल',nonGst:'विना-GST बिल',print:'प्रिंट / PDF सेव्ह',smsBill:'ग्राहकाला SMS पाठवा',sharePdf:'PDF शेअर करा',whatsapp:'ग्राहकाला WhatsApp',phoneRequired:'कृपया योग्य ग्राहक मोबाईल क्रमांक टाका (१० अंकी किंवा देश कोडसह).',pdfReady:'PDF डाउनलोड झाले. मेसेजिंग ॲपमध्ये जोडून पाठवा.',subtotal:'मूळ रक्कम',tax:'GST',total:'एकूण',paid:'भरलेली रक्कम',due:'बाकी रक्कम',customerList:'ग्राहक यादी',supplierList:'पुरवठादार यादी',export:'बॅकअप एक्सपोर्ट',import:'बॅकअप इम्पोर्ट',reset:'सर्व डेटा हटवा',backupHint:'नोंदी या डिव्हाइसच्या ब्राउझरमध्ये सेव्ह होतात. नियमित बॅकअप घ्या.',businessInfo:'व्यवसायाची माहिती',businessName:'व्यवसायाचे नाव',businessPhone:'फोन',businessAddress:'पत्ता',businessGST:'व्यवसाय GSTIN',reportsHint:'खरेदी व विक्री नोंदींवर आधारित सारांश.',purchaseTotal:'एकूण खरेदी',salesTotal:'एकूण विक्री',gross:'विक्री वजा खरेदी खर्च (अंदाजे)',all:'सर्व',delete:'हटवा',confirmDelete:'ही नोंद हटवायची?',stockError:'विक्रीसाठी पुरेसा स्टॉक उपलब्ध नाही.',required:'कृपया आवश्यक माहिती भरा.',productExists:'हे उत्पादन आधीपासून आहे.',addCustomer:'ग्राहक जोडा',addSupplier:'पुरवठादार जोडा',noGst:'GST लागू नाही',selectProduct:'उत्पादन निवडा',unitPrice:'प्रति युनिट दर',type:'बिल प्रकार',supplierBill:'पुरवठादार बिल क्र.',customerGST:'ग्राहक GSTIN',company:'कंपनी / ब्रँड',saveSettings:'सेटिंग्ज सेव्ह करा',stockWarning:'कमी स्टॉक',purchaseSuccess:'खरेदी सेव्ह झाली',saleSuccess:'विक्री सेव्ह झाली व स्टॉक अपडेट झाला',unitStock:'स्टॉक',records:'नोंदी',dateRange:'कालावधी',thisMonth:'हा महिना',allTime:'सर्व काळ',cashCredit:'रोख / UPI / बँक / उधारी / चेक',opening:'प्रारंभिक स्टॉक',openingHint:'पहिली खरेदी नोंदवण्यापूर्वी सुरुवातीचा स्टॉक नोंदवा.'}
+};
+function tr(k){return (T[lang]&&T[lang][k])||T.en[k]||k}
+function money(n){return '₹'+Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:2})}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){let x=document.getElementById('toast');x.textContent=s;x.style.display='block';setTimeout(()=>x.style.display='none',2300)}
+function today(){return new Date().toISOString().slice(0,10)}
+function stock(p){return Number(p.opening||0)+db.purchases.filter(x=>x.productId===p.id).reduce((a,x)=>a+ +x.qty,0)-db.sales.filter(x=>x.productId===p.id).reduce((a,x)=>a+ +x.qty,0)}
+function totals(rows){return rows.reduce((a,x)=>a+Number(x.total||0),0)}
+function nav(){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));render()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{page=b.dataset.page;nav()});
+document.getElementById('language').value=lang;document.getElementById('language').onchange=e=>{lang=e.target.value;localStorage.setItem('lm_lang',lang);document.querySelectorAll('[data-i]').forEach(el=>el.textContent=tr(el.dataset.i));render()};
+function render(){let m=document.getElementById('main');if(page==='dashboard')m.innerHTML=dashboard();if(page==='products')m.innerHTML=productsPage();if(page==='purchase')m.innerHTML=purchasePage();if(page==='sales')m.innerHTML=salesPage();if(page==='customers')m.innerHTML=peoplePage('customers');if(page==='suppliers')m.innerHTML=peoplePage('suppliers');if(page==='reports')m.innerHTML=reportsPage();if(page==='settings')m.innerHTML=settingsPage();wire()}
+function head(title,actions=''){return `<div class="pagehead"><h1>${title}</h1><div class="actions">${actions}</div></div>`}
+function metric(label,value,sub=''){return `<div class="card"><div class="metriclabel">${label}</div><div class="metric">${value}</div><div class="metriclabel">${sub}</div></div>`}
+function dashboard(){let todaySales=db.sales.filter(x=>x.date===today());let low=db.products.filter(p=>stock(p)<=5);return head(tr('dashboard'))+`<div class="cards">${metric(tr('stock'),db.products.length, tr('records'))}${metric(tr('stockValue'),money(db.purchases.reduce((a,x)=>a+x.qty*x.rate,0)),tr('purchaseTotal'))}${metric(tr('todaySales'),money(totals(todaySales)),today())}${metric(tr('low'),low.length,tr('stockWarning'))}</div><div class="panel"><h2>${tr('quick')}</h2><div class="actions"><button class="btn" onclick="page='purchase';nav()">${tr('addPurchase')}</button><button class="btn" onclick="page='sales';nav()">${tr('newSale')}</button><button class="btn secondary" onclick="page='products';nav()">${tr('addProduct')}</button></div></div><div class="split"><div class="panel"><h2>${tr('low')} <span class="pill warn">${low.length}</span></h2>${low.length?table(['Product',tr('available')],low.map(p=>[esc(p.name),`<span class="pill ${stock(p)<=0?'bad':'warn'}">${stock(p)} ${esc(p.unit)}</span>`])):`<div class="empty">${tr('noData')}</div>`}</div><div class="panel"><h2>${tr('recent')}</h2>${recentTable()}</div></div>`}
+function table(headers,rows){return `<div class="tablewrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.map(r=>`<tr>${r.map(c=>`<td>${c??''}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${headers.length}" class="empty">${tr('noData')}</td></tr>`}</tbody></table></div>`}
+function recentTable(){let all=[...db.purchases.map(x=>({...x,kind:'Purchase',party:x.party})),...db.sales.map(x=>({...x,kind:'Sale',party:x.party}))].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6);return table([tr('date'),'Type',tr('product'),tr('qty'),tr('amount')],all.map(x=>[x.date,x.kind,esc(x.productName),x.qty,money(x.total)]))}
+function productsPage(){let rows=db.products.map(p=>[esc(p.name),esc(p.brand||''),esc(p.batch||''),esc(p.unit),p.opening||0,db.purchases.filter(x=>x.productId===p.id).reduce((a,x)=>a+x.qty,0),db.sales.filter(x=>x.productId===p.id).reduce((a,x)=>a+x.qty,0),`<b>${stock(p)}</b>`,`<button class="btn danger small" onclick="del('products','${p.id}')">${tr('delete')}</button>`]);return head(tr('products'),`<button class="btn" onclick="productForm()">${tr('addProduct')}</button>`)+`<div class="panel"><div class="muted">${tr('openingHint')}</div>${table([tr('product'),tr('brand'),tr('batch'),tr('unit'),tr('opening'),tr('purchased'),tr('sold'),tr('available'),tr('actions')],rows)}</div>`}
+function productForm(){modal(tr('addProduct'),`<form onsubmit="addProduct(event)"><div class="formgrid">${field('name',tr('product'),'',true)}${field('brand',tr('brand'))}${field('batch',tr('batch'))}${selectField('unit',tr('unit'),[['Bags',tr('bags')],['Kg',tr('kg')],['Litre',tr('litre')],['Other',tr('other')]])}${field('opening',tr('opening'),'0','number')}${field('min',tr('low'),'5','number')}</div><p><button class="btn">${tr('save')}</button></p></form>`)}
+function addProduct(e){e.preventDefault();let f=Object.fromEntries(new FormData(e.target));if(!f.name.trim())return toast(tr('required'));if(db.products.some(p=>p.name.toLowerCase()===f.name.toLowerCase()))return toast(tr('productExists'));db.products.push({...f,id:crypto.randomUUID(),opening:+f.opening||0,min:+f.min||5});save();closeModal();render();toast('Saved')}
+function purchasePage(){return head(tr('purchase'))+`<div class="panel"><h2>${tr('purchaseRegister')}</h2><form onsubmit="addPurchase(event)"><div class="formgrid">${field('date',tr('date'),today(),'date')}${field('billNo',tr('supplierBill'))}${field('party',tr('supplier'),'','text',true)}${field('partyGstin',tr('gstin'))}${selectProductField()}${field('brand',tr('brand'))}${field('batch',tr('batch'))}${field('qty',tr('qty'),'1','number',true)}${field('rate',tr('rate'),'0','number',true)}${field('gst',tr('gst'),'0','number')}${paymentField()}${field('notes',tr('notes'))}</div><p><button class="btn">${tr('save')}</button></p></form></div><div class="panel"><h2>${tr('purchaseRegister')}</h2>${table([tr('date'),tr('billNo'),tr('supplier'),tr('product'),tr('qty'),tr('rate'),tr('amount')],db.purchases.slice().reverse().map(x=>[x.date,esc(x.billNo),esc(x.party),esc(x.productName),x.qty,money(x.rate),money(x.total)]))}</div>`}
+function addPurchase(e){e.preventDefault();let f=Object.fromEntries(new FormData(e.target));let p=db.products.find(x=>x.id===f.productId);if(!p||!f.party||+f.qty<=0)return toast(tr('required'));let base=+f.qty*+f.rate,tax=base*(+f.gst||0)/100;db.purchases.push({...f,id:crypto.randomUUID(),productName:p.name,qty:+f.qty,rate:+f.rate,gst:+f.gst||0,total:base+tax,base,tax});save();render();toast(tr('purchaseSuccess'));e.target.reset()}
+function salesPage(){return head(tr('sales'))+`<div class="panel"><h2>${tr('newSale')}</h2><form onsubmit="addSale(event)"><div class="formgrid">${field('date',tr('date'),today(),'date')}${field('billNo',tr('billNo'),nextBill())}${field('party',tr('customer'),'','text',true)}${field('mobile',tr('mobile'),'','tel',true)}${field('partyGstin',tr('customerGST'))}${selectField('billType',tr('type'),[['GST',tr('gstBill')],['Non-GST',tr('nonGst')]])}${selectProductField()}${field('batch',tr('batch'))}${field('qty',tr('qty'),'1','number',true)}${field('rate',tr('rate'),'0','number',true)}${field('gst',tr('gst'),'0','number')}${paymentField()}${field('paid',tr('paid'),'0','number')}${field('notes',tr('notes'))}</div><p class="muted">${tr('stockError')} ${tr('available')} stock is checked before saving.</p><button class="btn">${tr('save')}</button></form></div><div class="panel"><h2>${tr('salesRegister')}</h2>${table([tr('date'),tr('billNo'),tr('customer'),tr('product'),tr('qty'),tr('amount'),tr('due'),''],db.sales.slice().reverse().map(x=>[x.date,esc(x.billNo),esc(x.party),esc(x.productName),x.qty,money(x.total),money(x.total-(x.paid||0)),`<div class="actions"><button class="btn secondary small" onclick="showBill('${x.id}')">${tr('invoice')}</button><button class="btn small" onclick="showBill('${x.id}')">↗ Share bill</button></div>`]))}</div>`}
+function nextBill(){return (db.settings.invoicePrefix||'LM')+'-'+String(db.seq).padStart(4,'0')}
+function addSale(e){
+ e.preventDefault();let f=Object.fromEntries(new FormData(e.target));
+ let p=db.products.find(x=>x.id===f.productId),digits=(f.mobile||'').replace(/\D/g,'');
+ if(!p||!f.party||+f.qty<=0)return toast(tr('required'));
+ if(digits.length<10||digits.length>13)return toast(tr('phoneRequired'));
+ if(stock(p)<+f.qty)return toast(tr('stockError'));
+ let gst=f.billType==='GST'?(+f.gst||0):0,base=+f.qty*+f.rate,tax=base*gst/100;
+ let x={...f,id:crypto.randomUUID(),billNo:f.billNo||nextBill(),productName:p.name,brand:p.brand,unit:p.unit,qty:+f.qty,rate:+f.rate,gst,total:base+tax,base,tax,paid:+f.paid||0};
+ db.sales.push(x);db.seq++;
+ let customer=db.customers.find(c=>c.name.toLowerCase()===f.party.toLowerCase());
+ if(customer){customer.mobile=f.mobile;customer.gstin=f.partyGstin||customer.gstin||'';customer.address=customer.address||'';}
+ else db.customers.push({id:crypto.randomUUID(),name:f.party,mobile:f.mobile||'',gstin:f.partyGstin||''});
+ save();render();toast(tr('saleSuccess'));showBill(x.id)
+}
+function showBill(id){
+ let x=db.sales.find(a=>a.id===id);if(!x)return;let s=db.settings;
+ modal(tr('invoice'),`<div class="bill" id="printBill"><h2>${esc(s.business||COMPANY)}</h2><p>${esc(s.address||'')}</p><p>${esc(s.phone||'')} ${s.gstin?' | GSTIN: '+esc(s.gstin):''}</p><hr><h2>${x.billType==='GST'?tr('gstBill'):tr('nonGst')}</h2><p>Bill: ${esc(x.billNo)} &nbsp; Date: ${esc(x.date)}</p><p>Customer: ${esc(x.party)} &nbsp; ${esc(x.mobile||'')}</p>${x.partyGstin?'<p>GSTIN: '+esc(x.partyGstin)+'</p>':''}<table><thead><tr><th>${tr('product')}</th><th>${tr('qty')}</th><th>${tr('rate')}</th><th>${tr('gst')}</th><th>${tr('amount')}</th></tr></thead><tbody><tr><td>${esc(x.productName)}</td><td>${x.qty} ${esc(x.unit||'')}</td><td>${money(x.rate)}</td><td>${x.gst}%</td><td>${money(x.total)}</td></tr></tbody></table><div class="totals"><div><span>${tr('subtotal')}</span><b>${money(x.base)}</b></div><div><span>${tr('tax')}</span><b>${money(x.tax)}</b></div><div style="border-top:1px solid #333;font-size:18px"><span>${tr('total')}</span><b>${money(x.total)}</b></div><div><span>${tr('paid')}</span><b>${money(x.paid)}</b></div><div><span>${tr('due')}</span><b>${money(x.total-x.paid)}</b></div></div><p style="margin-top:45px;text-align:right">Authorized Signatory</p></div><div class="bill-actions actions noprint"><button class="btn" onclick="shareBillSMS('${x.id}')">✉ ${tr('smsBill')}</button><button class="btn secondary" onclick="shareBillPDF('${x.id}',this)">↗ ${tr('sharePdf')}</button><button class="btn secondary" onclick="shareBillWhatsApp('${x.id}')">${tr('whatsapp')}</button><button class="btn secondary" onclick="window.print()">${tr('print')}</button></div>`)
+}
+function billShareText(x){
+ const s=db.settings,due=Math.max(0,x.total-(x.paid||0));
+ return `${s.business||COMPANY}\n${x.billType==='GST'?'GST Invoice':'Bill'}: ${x.billNo}\nDate: ${x.date}\nCustomer: ${x.party}\nProduct: ${x.productName}\nQuantity: ${x.qty} ${x.unit||''}\nTotal: ${money(x.total)}\nPaid: ${money(x.paid||0)}\nBalance due: ${money(due)}\nThank you!`;
+}
+function customerPhone(x){let n=String(x.mobile||'').replace(/\D/g,'');if(n.length===10)n='91'+n;return n.length>=11&&n.length<=13?n:'';}
+function shareBillSMS(id){
+ const x=db.sales.find(a=>a.id===id);if(!x)return;let n=customerPhone(x);
+ if(!n)return toast(tr('phoneRequired'));
+ const body=billShareText(x);let uri=`sms:+${n}?body=${encodeURIComponent(body)}`;
+ const a=document.createElement('a');a.href=uri;document.body.appendChild(a);a.click();a.remove();
+}
+async function shareBillPDF(id,btn){
+ const x=db.sales.find(a=>a.id===id);if(!x)return;
+ if(!window.html2pdf)return toast('PDF generator did not load. Check internet and try again.');
+ if(btn){btn.disabled=true;btn.textContent='Preparing PDF…'}
+ try{
+  const node=document.getElementById('printBill');if(!node)throw new Error('Bill preview not found');
+  const blob=await html2pdf().set({margin:8,filename:`Bill-${x.billNo}.pdf`,image:{type:'jpeg',quality:.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(node).toPdf().get('pdf').then(pdf=>pdf.output('blob'));
+  const file=new File([blob],`Bill-${x.billNo}.pdf`,{type:'application/pdf'});
+  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+   await navigator.share({title:`Bill ${x.billNo}`,text:`Bill for ${x.party} (${x.mobile})`,files:[file]});
+  }else{
+   const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`Bill-${x.billNo}.pdf`;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);toast(tr('pdfReady'));
+  }
+ }catch(err){if(err.name!=='AbortError'){console.error(err);toast('Could not create/share PDF. Use Print / Save PDF.')}}
+ finally{if(btn){btn.disabled=false;btn.textContent='↗ '+tr('sharePdf')}}
+}
+function shareBillWhatsApp(id){
+ const x=db.sales.find(a=>a.id===id);if(!x)return;let n=customerPhone(x);if(!n)return toast(tr('phoneRequired'));
+ window.open(`https://wa.me/${n}?text=${encodeURIComponent(billShareText(x))}`,'_blank');
+}
+function peoplePage(type){let isC=type==='customers',arr=db[type];return head(isC?tr('customers'):tr('suppliers'),`<button class="btn" onclick="personForm('${type}')">${isC?tr('addCustomer'):tr('addSupplier')}</button>`)+`<div class="panel"><h2>${isC?tr('customerList'):tr('supplierList')}</h2>${table([tr('name'),tr('mobile'),tr('gstin'),tr('actions')],arr.map(x=>[esc(x.name),esc(x.mobile||''),esc(x.gstin||''),`<button class="btn danger small" onclick="del('${type}','${x.id}')">${tr('delete')}</button>`]))}</div>`}
+function personForm(type){modal(type==='customers'?tr('addCustomer'):tr('addSupplier'),`<form onsubmit="addPerson(event,'${type}')"><div class="formgrid">${field('name',tr('name'),'','text',true)}${field('mobile',tr('mobile'))}${field('gstin',tr('gstin'))}${field('address',tr('address'))}</div><p><button class="btn">${tr('save')}</button></p></form>`)}
+function addPerson(e,type){e.preventDefault();let f=Object.fromEntries(new FormData(e.target));if(!f.name)return toast(tr('required'));db[type].push({...f,id:crypto.randomUUID()});save();closeModal();render()}
+function reportsPage(){let p=totals(db.purchases),s=totals(db.sales),baseCost=db.sales.reduce((a,x)=>{let buy=db.purchases.filter(q=>q.productId===x.productId);let avg=buy.length?buy.reduce((z,q)=>z+q.rate*q.qty,0)/buy.reduce((z,q)=>z+q.qty,0):0;return a+avg*x.qty},0);return head(tr('reports'))+`<div class="panel"><p class="muted">${tr('reportsHint')}</p><div class="cards">${metric(tr('purchaseTotal'),money(p))}${metric(tr('salesTotal'),money(s))}${metric(tr('gross'),money(s-baseCost))}${metric(tr('records'),db.purchases.length+db.sales.length)}</div></div><div class="split"><div class="panel"><h2>${tr('purchaseRegister')}</h2>${table([tr('date'),tr('product'),tr('qty'),tr('amount')],db.purchases.map(x=>[x.date,esc(x.productName),x.qty,money(x.total)]))}</div><div class="panel"><h2>${tr('salesRegister')}</h2>${table([tr('date'),tr('product'),tr('qty'),tr('amount')],db.sales.map(x=>[x.date,esc(x.productName),x.qty,money(x.total)]))}</div></div>`}
+function settingsPage(){let s=db.settings;return head(tr('settings'))+`<div class="panel"><h2>${tr('businessInfo')}</h2><form onsubmit="saveSettings(event)"><div class="formgrid">${field('business',tr('businessName'),s.business)}${field('phone',tr('businessPhone'),s.phone)}${field('address',tr('businessAddress'),s.address)}${field('gstin',tr('businessGST'),s.gstin)}${field('invoicePrefix','Invoice prefix',s.invoicePrefix)}</div><p><button class="btn">${tr('saveSettings')}</button></p></form></div><div class="panel"><h2>☁ Cloud database connection</h2><p class="muted">Connect a Supabase project to securely sync this owner's records between devices. Create the database using the included supabase-schema.sql first.</p><div class="formgrid"><div class="field"><label>Supabase Project URL</label><input id="sbUrl" placeholder="https://your-project.supabase.co" value="${esc(cloudConfig().url||'')}"></div><div class="field"><label>Supabase anon / publishable key</label><input id="sbKey" placeholder="sb_publishable_... or anon key" value="${esc(cloudConfig().key||'')}"></div></div><p class="actions"><button class="btn" onclick="connectCloud()">Connect / Sign in</button><button class="btn secondary" onclick="syncCloud()">Sync now</button>${cloudUser?'<button class="btn danger" onclick="signOutCloud()">Sign out</button>':''}</p><p id="cloudStatus" class="muted">${cloudUser?'Connected as '+esc(cloudUser.email):'Not connected — local browser storage is active.'}</p><p class="muted">Never paste a service_role key here. Only use the public anon/publishable key.</p></div><div class="panel"><h2>Backup & Restore</h2><p class="muted">${tr('backupHint')}</p><div class="actions"><button class="btn secondary" onclick="exportData()">${tr('export')}</button><label class="btn secondary" style="display:inline-block">${tr('import')}<input type="file" accept="application/json" onchange="importData(event)" hidden></label><button class="btn danger" onclick="resetData()">${tr('reset')}</button></div></div><div class="panel"><b>Important:</b> This first version stores data in this browser on this device. Use Export backup to move records to another device. Cloud sync and secure sign-in are not configured.</div>`}
+function saveSettings(e){e.preventDefault();Object.assign(db.settings,Object.fromEntries(new FormData(e.target)));save();toast('Saved')}
+function exportData(){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:'application/json'}));a.download='lokhandemandana-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.products||!x.sales||!x.purchases)throw 0;db={...blank,...x};save();render();toast('Backup restored')}catch(_){toast('Invalid backup file')}};r.readAsText(f)}
+function resetData(){if(confirm('Permanently delete all local records? Export a backup first.')){db=structuredClone(blank);save();render()}}
+function del(type,id){if(!confirm(tr('confirmDelete')))return;db[type]=db[type].filter(x=>x.id!==id);save();render()}
+function field(name,label,value='',type='text',required=false){return `<div class="field"><label>${label}</label><input name="${name}" type="${type}" value="${esc(value)}" ${required?'required':''} ${type==='number'?'min="0" step="any"':''}></div>`}
+function selectField(name,label,opts){return `<div class="field"><label>${label}</label><select name="${name}">${opts.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select></div>`}
+function selectProductField(){return `<div class="field"><label>${tr('product')}</label><select name="productId" required><option value="">${tr('selectProduct')}</option>${db.products.map(p=>`<option value="${p.id}">${esc(p.name)} (${tr('available')}: ${stock(p)} ${esc(p.unit)})</option>`).join('')}</select></div>`}
+function paymentField(){return selectField('payment',tr('payment'),[['Cash',tr('cash')],['UPI','UPI'],['Bank',tr('bank')],['Credit',tr('credit')],['Cheque',tr('cheque')]])}
+function modal(title,body){document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=body;document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function wire(){}
+bootCloud();
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script></body></html>
